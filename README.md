@@ -1,8 +1,7 @@
 # Flask App — AWS ECS Deployment
 
-A minimal Flask web application built for learning containerization and deployment to **AWS ECS (Elastic Container Service)**.
+A minimal Flask web application built for learning containerization and deployment to **AWS EC2 using Docker**.
 
-Part of the [TrainWithShubham](https://github.com/TrainWithShubham) — DevOps Zero To Hero course.
 
 ![Python](https://img.shields.io/badge/Python-3.14-blue)
 ![Flask](https://img.shields.io/badge/Flask-3.1.1-green)
@@ -21,7 +20,7 @@ Part of the [TrainWithShubham](https://github.com/TrainWithShubham) — DevOps Z
 |-----------|------------|
 | Framework | Flask 3.1.1 |
 | Runtime   | Python 3.14 |
-| Container | Docker (python-slim / distroless) |
+| Container | Docker (python / distroless) |
 | Deploy    | AWS ECS |
 
 ## Project Structure
@@ -68,7 +67,7 @@ docker run -p 80:80 flask-app
 
 ### Simple (`Dockerfile`)
 
-Single-stage build using `python:3.14-slim`. Straightforward — copies everything, installs dependencies, runs the app. Good for development and learning.
+Single-stage build using `python:3.14`. Straightforward — copies everything, installs dependencies, runs the app. Good for development and learning.
 
 ### Multistage (`Dockerfile-multi`)
 
@@ -88,19 +87,3 @@ Benefits:
 | `/`       | GET    | Landing page                    |
 | `/health` | GET    | Health check (returns `Server is up and running`) |
 
-## Deploy to AWS ECS
-
-High-level steps to deploy this app on ECS:
-
-1. **Push image to ECR**
-   ```bash
-   aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
-   docker tag flask-app:latest <account-id>.dkr.ecr.<region>.amazonaws.com/flask-app:latest
-   docker push <account-id>.dkr.ecr.<region>.amazonaws.com/flask-app:latest
-   ```
-
-2. **Create ECS Task Definition** — specify the ECR image, port 80, memory/CPU limits
-
-3. **Create ECS Service** — attach to a cluster, configure desired count, link to a load balancer
-
-4. **Configure ALB** — target group pointing to port 80, use `/health` as the health check path

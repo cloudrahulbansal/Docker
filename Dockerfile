@@ -1,24 +1,18 @@
-# Base image (OS)
+# Base image. Defines the starting point of your image.
+# Docker will download a Python image and build on top of it.
+FROM python:3.14
 
-FROM python:3.14-slim
-
-# Working directory
-
+# Sets the default directory inside the container.
 WORKDIR /app
 
-# Copy src code to container
-
+# Copies all files from the current host directory into the container's working directory (/app).
 COPY . .
 
-# Run the build commands
-
+# Installs all Python packages listed in requirements.txt
 RUN pip install -r requirements.txt
 
-# expose port 80
-
+# Documents that the application listens on port 80.
 EXPOSE 80
 
-# serve the app / run the app (keep it running)
-
+# Defines what starts when the container runs.
 CMD ["python","run.py"]
-
