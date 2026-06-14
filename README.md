@@ -21,7 +21,7 @@ A minimal Flask web application built for learning containerization and deployme
 | Framework | Flask 3.1.1 |
 | Runtime   | Python 3.14 |
 | Container | Docker (python / distroless) |
-| Deploy    | AWS ECS |
+| Deploy    | AWS EC2 |
 
 ## Project Structure
 
